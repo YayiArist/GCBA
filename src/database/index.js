@@ -24,20 +24,9 @@ let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-// Relaciones entre tablas
-const { Producto, Venta, Cliente, DetalleVenta } = sequelize.models;
+// Definicion de modelo
+const { Producto } = sequelize.models;
 
-// Producto - DetalleVenta (Uno a muchos)
-Producto.hasMany(DetalleVenta, { foreignKey: 'id_producto' });
-DetalleVenta.belongsTo(Producto, { foreignKey: 'id_producto' });
-
-// DetalleVenta - Venta (Uno a muchos)
-Venta.hasMany(DetalleVenta, { foreignKey: 'id_venta' });
-DetalleVenta.belongsTo(Venta, { foreignKey: 'id_venta' });
-
-// Venta - Cliente (Uno a muchos)
-Cliente.hasMany(Venta, { foreignKey: 'id_cliente' });
-Venta.belongsTo(Cliente, { foreignKey: 'id_cliente' });
 
 sequelize.authenticate().then(() => {
   console.log('Conexión con la base de datos correcta');
